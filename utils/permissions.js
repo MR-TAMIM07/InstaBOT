@@ -1,106 +1,58 @@
-const config = require('../config');
 const ConfigManager = require('./configManager');
 const logger = require('./logger');
 
 /**
  * Role System:
- * 0 - All Users (anyone can use)
- * 1 - Bot Admins (defined in config.BOT_ADMINS)
- * 2 - Bot Admins (same as role 1 for Instagram)
- * 3 - Bot Developer (config.DEVELOPER_ID)
- * 
- * Note: Role 2 is equivalent to Role 1 for Instagram since
- * Instagram DMs don't have traditional group admin roles like Facebook
+ * 0 - All Users
+ * 1 - (alias for role 2, kept for legacy compatibility)
+ * 2 - Bot Admins     (adminBot list)   — can use noPrefix commands
+ * 3 - Premium Users  (premiumUsers list)
+ * 4 - Developers     (devUsers list)   — full access + noPrefix
  */
 
 class PermissionManager {
-  /**
-   * Check if user has required role
-   * @param {string} userId - User ID
-   * @param {number} requiredRole - Required role level (0-3)
-   * @param {Object} threadInfo - Thread information (optional, for future use)
-   * @returns {boolean} True if user has permission
-   */
-  static async hasPermission(userId, requiredRole = 0, threadInfo = null) {
-    // Role 0: Everyone has access
-    if (requiredRole === 0) {
-      return true;
-    }
+  static getUserRole(userId) {
+    const uid = String(userId);
+    if (ConfigManager.getDevUsers().includes(uid))     return 4;
+    if (ConfigManager.getPremiumUsers().includes(uid)) return 3;
+    if (ConfigManager.getAdmins().includes(uid))       return 2;
+    return 0;
+  }
 
-    // Normalize userId to string for comparison
-    const userIdStr = String(userId);
+  static async hasPermission(userId, requiredRole = 0) {
+    if (requiredRole === 0) return true;
+    const userRole = this.getUserRole(userId);
 
-    // Get fresh config data from config.json
-    const admins = ConfigManager.getAdmins();
-    const developer = ConfigManager.getDeveloper();
+    // Developers (role 4) can do everything
+    if (userRole === 4) return true;
 
-    // Debug logging
-    logger.debug('Permission check', {
-      userId,
-      userIdStr,
-      requiredRole,
-      admins,
-      developer,
-      isInAdmins: admins.includes(userIdStr),
-      isDeveloper: userIdStr === developer
-    });
+    // Role 3 (premium) satisfies 1, 2, 3
+    if (requiredRole <= 3 && userRole >= requiredRole) return true;
 
-    // Role 3: Bot Developer
-    if (requiredRole === 3) {
-      return userIdStr === developer;
-    }
-
-    // If user is developer, they have access to everything
-    if (userIdStr === developer) {
-      return true;
-    }
-
-    // Role 1 & 2: Bot Admins (Role 2 = Role 1 for Instagram)
-    if (requiredRole === 1 || requiredRole === 2) {
-      return admins.includes(userIdStr);
-    }
+    // Legacy role-1 treated same as role-2
+    if (requiredRole === 1 && userRole >= 2) return true;
 
     return false;
   }
 
-  /**
-   * Get role name
-   * @param {number} role - Role number
-   * @returns {string} Role name
-   */
   static getRoleName(role) {
     const roles = {
       0: 'All Users',
       1: 'Bot Admin',
       2: 'Bot Admin',
-      3: 'Bot Developer'
+      3: 'Premium User',
+      4: 'Developer'
     };
     return roles[role] || 'Unknown';
   }
 
   /**
-   * Get user's highest role
-   * @param {string} userId - User ID
-   * @param {Object} threadInfo - Thread information (optional, for future use)
-   * @returns {number} Highest role number
+   * Returns true if the user can run commands without the prefix
+   * (role 2 = admin, role 4 = dev)
    */
-  static getUserRole(userId, threadInfo = null) {
-    // Normalize userId to string for comparison
-    const userIdStr = String(userId);
-
-    // Get fresh config data from config.json
-    const admins = ConfigManager.getAdmins();
-    const developer = ConfigManager.getDeveloper();
-
-    if (userIdStr === developer) {
-      return 3;
-    }
-
-    if (admins.includes(userIdStr)) {
-      return 1;
-    }
-
-    return 0;
+  static canUseNoPrefix(userId) {
+    const role = this.getUserRole(userId);
+    return role === 2 || role === 4;
   }
 }
 

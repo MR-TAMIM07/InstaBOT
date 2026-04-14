@@ -4,7 +4,30 @@
 This is a highly advanced Instagram bot built with Node.js and the `@neoaz07/nkxica` chat API. The bot is designed to handle Instagram messages, commands, and events similar to GoatbotV2's architecture.
 
 ## Recent Changes
-- **2026-04-14 (Latest)**: Command Folder and Database Cleanup
+- **2026-04-14 (Latest)**: New config format + feature implementation
+  - Replaced `config/default.json` with the new schema (facebookAccount, roles, whitelists, spam, MQTT, notifications, etc.)
+  - **4-tier role system**: role 0 = all users, role 2 = adminBot, role 3 = premiumUsers, role 4 = devUsers
+  - **noPrefix**: admins (role 2) and devs (role 4) can run commands without the prefix when `noPrefix: true`
+  - **adminOnly mode**: restrict bot usage to admins only, with an `ignoreCommand` bypass list
+  - **User + thread whitelist**: `whiteListMode` and `whiteListModeThread` with combined OR logic
+  - **Spam protection**: command-rate limiting via `commandThreshold / timeWindow / banDuration`
+  - **Email/password login**: bot logs in with credentials when cookies are absent or invalid
+  - **Cookie auto-refresh**: scheduled via `intervalGetNewCookie` (minutes) using email/password
+  - **optionsFca**: all Instagram API options now sourced from config instead of hardcoded
+  - **Typing indicator duration**: configurable milliseconds delay before each message
+  - **restartListenMqtt**: periodic automatic restart of the MQTT listener
+  - **autoRestartWhenListenMqttError**: reconnect on MQTT errors when enabled
+  - **autoRestart**: bot auto-restart via ms interval or cron expression
+  - **autoUptime**: periodic HTTP ping to keep server alive
+  - **MQTT error notifications**: Telegram bot and Discord webhook alerts
+  - **hideNotiMessage**: suppress specific bot notification types
+  - **logEvents**: per-event-type log filtering
+  - **antiInbox**: skip DM (non-group) messages when enabled
+  - **timeZone**: used for cron scheduling
+  - **ConfigManager** updated for adminBot / premiumUsers / devUsers
+  - **PermissionManager** updated for new 4-role hierarchy
+
+- **2026-04-14**: Command Folder and Database Cleanup
   - Moved source folders out of `src/` and back to root-level folders
   - Flattened all command files back into `commands/` with no category subfolders
   - Replaced JSON file storage with SQLite as the default local database
