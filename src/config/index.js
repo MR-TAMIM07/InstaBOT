@@ -4,9 +4,8 @@ const path = require('path');
 
 dotenv.config();
 
-// Load config.json
 let configJSON = {};
-const configPath = './config.json';
+const configPath = path.resolve(__dirname, 'default.json');
 
 try {
   if (fs.existsSync(configPath)) {
@@ -115,18 +114,17 @@ module.exports = {
   MAX_LOG_SIZE: configJSON.logging?.maxLogSize || '10m',
   MAX_LOG_FILES: configJSON.logging?.maxLogFiles || 5,
   
-  // Paths
   ACCOUNT_FILE: process.env.ACCOUNT_FILE || configJSON.paths?.account || './account.txt',
-  COMMANDS_PATH: configJSON.paths?.commands || './commands',
-  EVENTS_PATH: configJSON.paths?.events || './events',
-  LOGS_PATH: configJSON.paths?.logs || './logs',
-  DATA_PATH: configJSON.paths?.data || './data',
+  COMMANDS_PATH: configJSON.paths?.commands || './src/commands',
+  EVENTS_PATH: configJSON.paths?.events || './src/events',
+  LOGS_PATH: configJSON.paths?.logs || './storage/logs',
+  DATA_PATH: configJSON.paths?.data || './storage/data',
   TEMP_PATH: configJSON.paths?.temp || './temp',
   
   // Database
   DATABASE_ENABLED: configJSON.database?.enabled || false,
   DATABASE_TYPE: configJSON.database?.type || 'json',
-  DATABASE_PATH: configJSON.database?.path || './data/database.json',
+  DATABASE_PATH: configJSON.database?.path || './storage/data/database.json',
   DATABASE_AUTO_SAVE: configJSON.database?.autoSave !== false,
   DATABASE_SAVE_INTERVAL: configJSON.database?.saveInterval || 60000,
   

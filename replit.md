@@ -4,6 +4,16 @@
 This is a highly advanced Instagram bot built with Node.js and the `@neoaz07/nkxica` chat API. The bot is designed to handle Instagram messages, commands, and events similar to GoatbotV2's architecture.
 
 ## Recent Changes
+- **2026-04-14 (Latest)**: Project Structure Cleanup
+  - Reorganized source code into a clean `src/` layout
+  - Moved main bot engine to `src/bot/InstagramBot.js`
+  - Grouped commands by category under `src/commands/`
+  - Moved events to `src/events/` and shared utilities to `src/utils/`
+  - Moved configuration files to `src/config/`
+  - Moved JSON database and log files to `storage/data/` and `storage/logs/`
+  - Updated command loading to scan nested command folders recursively
+  - Bot restarted successfully after the reorganization
+
 - **2025-10-31 (Latest)**: Improved Message Visibility with Typing Indicator
   - **NEW FEATURE - Typing Indicator Before Messages**: Bot now sends typing indicator before every message
     - Shows "..." indicator to user, signaling bot is about to respond
@@ -114,48 +124,38 @@ This is a highly advanced Instagram bot built with Node.js and the `@neoaz07/nkx
 
 ## Project Architecture
 ```
-├── index.js              # Main bot engine with Instagram connection
-├── config.js             # Configuration management
+├── index.js              # Start script
+├── src/
+│   ├── bot/
+│   │   └── InstagramBot.js # Main bot engine with Instagram connection
+│   ├── config/
+│   │   ├── index.js      # Configuration loader
+│   │   └── default.json  # Default bot settings
+│   ├── commands/         # 23 command modules grouped by category
+│   │   ├── admin/        # Admin-only commands
+│   │   ├── ai/           # AI/GPT integration
+│   │   ├── config/       # Bot configuration commands
+│   │   ├── fun/          # Fun commands
+│   │   ├── game/         # Game commands
+│   │   ├── info/         # Statistics and info commands
+│   │   ├── system/       # Core system commands
+│   │   └── utility/      # Utility commands
+│   ├── events/           # Event handlers
+│   │   ├── message.js    # Enhanced message handler with moderation & features
+│   │   ├── ready.js      # Bot connected event
+│   │   └── error.js      # Error handling and auto-reconnect
+│   └── utils/            # Utility modules
+│       ├── logger.js     # Winston logging system
+│       ├── database.js   # JSON database with auto-save
+│       ├── moderation.js # Anti-spam, whitelist/blacklist, bad words
+│       ├── permissions.js # Role-based permissions
+│       ├── banner.js     # Console banners
+│       ├── commandLoader.js # Recursive command loading
+│       └── eventLoader.js # Event system management
 ├── account.txt           # Instagram cookies in Netscape format (user must provide)
-├── commands/             # 23 Command modules
-│   ├── ai.js            # AI/GPT integration
-│   ├── 8ball.js         # Magic 8-ball game
-│   ├── admin.js         # Admin management
-│   ├── calc.js          # Safe math calculator
-│   ├── choose.js        # Random choice picker
-│   ├── coinflip.js      # Coin flip game
-│   ├── credits.js       # Bot credits
-│   ├── dev.js           # Developer panel
-│   ├── dice.js          # Dice roller
-│   ├── echo.js          # Echo messages
-│   ├── help.js          # Show available commands
-│   ├── info.js          # Bot information
-│   ├── joke.js          # Random jokes
-│   ├── manage.js        # Auto-response management
-│   ├── ping.js          # Check bot response time
-│   ├── prefix.js        # Prefix management (thread & global)
-│   ├── quote.js         # Inspirational quotes
-│   ├── rps.js           # Rock Paper Scissors game
-│   ├── stats.js         # Bot & user statistics
-│   ├── time.js          # World time zones
-│   ├── uid.js           # Get Instagram user IDs
-│   ├── unsend.js        # Unsend messages
-│   └── userinfo.js      # Instagram user profiles
-├── events/              # Event handlers
-│   ├── message.js       # Enhanced message handler with moderation & features
-│   ├── ready.js         # Bot connected event
-│   └── error.js         # Error handling and auto-reconnect
-├── utils/               # Utility modules
-│   ├── logger.js        # Winston logging system
-│   ├── database.js      # JSON database with auto-save
-│   ├── moderation.js    # Anti-spam, whitelist/blacklist, bad words
-│   ├── permissions.js   # Role-based permissions
-│   ├── banner.js        # Console banners
-│   ├── cookieParser.js  # Parse Netscape cookie format
-│   ├── commandLoader.js # Dynamic command loading
-│   └── eventLoader.js   # Event system management
-├── logs/                # Log files (auto-generated)
-└── data/                # Persistent data storage (database.json)
+└── storage/
+    ├── logs/             # Log files (auto-generated)
+    └── data/             # Persistent data storage (database.json)
 ```
 
 ## User Preferences

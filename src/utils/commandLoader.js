@@ -13,7 +13,7 @@ class CommandLoader {
    * Load all commands from commands directory
    */
   async loadCommands() {
-    const commandsPath = path.resolve(__dirname, '..', config.COMMANDS_PATH);
+    const commandsPath = path.resolve(config.COMMANDS_PATH);
     
     if (!fs.existsSync(commandsPath)) {
       logger.warn('Commands directory not found, creating it');
@@ -21,19 +21,19 @@ class CommandLoader {
       return;
     }
 
-    const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+    const commandFiles = this.getJavaScriptFiles(commandsPath);
     
     logger.info(`Loading ${commandFiles.length} commands...`);
 
     for (const file of commandFiles) {
       try {
-        const filePath = path.join(commandsPath, file);
+        const filePath = file;
         // Clear require cache for hot reload
         delete require.cache[require.resolve(filePath)];
         const commandModule = require(filePath);
 
         if (!commandModule.config || !commandModule.config.name) {
-          logger.warn(`Command ${file} is missing config.name, skipping`);
+          logger.warn(`Command ${path.relative(commandsPath, file)} is missing config.name, skipping`);
           continue;
         }
 
@@ -50,11 +50,28 @@ class CommandLoader {
           aliases: commandModule.config.aliases || []
         });
       } catch (error) {
-        logger.error(`Failed to load command ${file}`, { error: error.message });
+        logger.error(`Failed to load command ${path.relative(commandsPath, file)}`, { error: error.message });
       }
     }
 
     logger.info(`Successfully loaded ${this.commands.size} commands`);
+  }
+
+  getJavaScriptFiles(directory) {
+    const entries = fs.readdirSync(directory, { withFileTypes: true });
+    const files = [];
+
+    for (const entry of entries) {
+      const entryPath = path.join(directory, entry.name);
+
+      if (entry.isDirectory()) {
+        files.push(...this.getJavaScriptFiles(entryPath));
+      } else if (entry.isFile() && entry.name.endsWith('.js')) {
+        files.push(entryPath);
+      }
+    }
+
+    return files;
   }
 
   /**

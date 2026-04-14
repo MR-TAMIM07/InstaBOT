@@ -3,7 +3,7 @@ const path = require('path');
 const logger = require('./logger');
 
 class ConfigManager {
-  static configPath = './config.json';
+  static configPath = path.resolve(__dirname, '../config/default.json');
 
   /**
    * Load config.json

@@ -179,10 +179,10 @@ node index.js
 
 ## 🔧 Creating Custom Commands
 
-Create a new file in the `commands/` directory:
+Create a new file in the matching category folder under `src/commands/`:
 
 ```javascript
-export default {
+module.exports = {
   config: {
     name: 'commandname',
     aliases: ['alias1', 'alias2'],
@@ -213,10 +213,10 @@ export default {
 
 ## 🎯 Creating Custom Events
 
-Create a new file in the `events/` directory:
+Create a new file in the `src/events/` directory:
 
 ```javascript
-export default {
+module.exports = {
   config: {
     name: 'eventname',
     description: 'Event description'
@@ -234,25 +234,25 @@ export default {
 ## Architecture
 
 ```
-├── index.js              # Main bot engine
-├── config.js             # Configuration
+├── index.js              # Start script
+├── src/
+│   ├── bot/              # Main bot engine
+│   ├── config/           # Configuration loader and defaults
+│   ├── commands/         # Command modules grouped by category
+│   │   ├── admin/
+│   │   ├── ai/
+│   │   ├── config/
+│   │   ├── fun/
+│   │   ├── game/
+│   │   ├── info/
+│   │   ├── system/
+│   │   └── utility/
+│   ├── events/           # Event handlers
+│   └── utils/            # Utility modules
 ├── account.txt           # Instagram cookies (Netscape format)
-├── commands/             # Command modules
-│   ├── help.js
-│   ├── ping.js
-│   └── ...
-├── events/               # Event handlers
-│   ├── message.js
-│   ├── ready.js
-│   └── error.js
-├── utils/                # Utility modules
-│   ├── logger.js         # Logging system
-│   ├── cookieParser.js   # Cookie parser
-│   ├── messageQueue.js   # Message queue
-│   ├── commandLoader.js  # Command loader
-│   └── eventLoader.js    # Event loader
-├── logs/                 # Log files
-└── data/                 # Persistent data
+└── storage/
+    ├── logs/             # Log files
+    └── data/             # Persistent data
 ```
 
 ## Error Handling
@@ -266,7 +266,7 @@ The bot includes comprehensive error handling:
 
 ## Logging
 
-Logs are saved in the `logs/` directory:
+Logs are saved in the `storage/logs/` directory:
 
 - `combined.log` - All logs
 - `error.log` - Error logs only

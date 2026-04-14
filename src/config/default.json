@@ -114,17 +114,17 @@
   
   "paths": {
     "account": "./account.txt",
-    "commands": "./commands",
-    "events": "./events",
-    "logs": "./logs",
-    "data": "./data",
+    "commands": "./src/commands",
+    "events": "./src/events",
+    "logs": "./storage/logs",
+    "data": "./storage/data",
     "temp": "./temp"
   },
   
   "database": {
     "enabled": false,
     "type": "json",
-    "path": "./data/database.json",
+    "path": "./storage/data/database.json",
     "autoSave": true,
     "saveInterval": 60000
   },
