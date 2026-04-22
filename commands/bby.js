@@ -9,7 +9,7 @@ const randomMessages = [
   "naw amr boss k message daw m.me/its.x.tamim", "mb ney bye", "meww", "গোলাপ ফুল এর জায়গায় আমি দিলাম তোমায় মেসেজ",
   "বলো কি বলবা, সবার সামনে বলবা নাকি?🤭🤏", "𝗜 𝗹𝗼𝘃𝗲 𝘆𝗼𝘂__😘😘", "𝗜 𝗵𝗮𝘁𝗲 𝘆𝗼𝘂__😏😏", "গোসল করে আসো যাও😑😩",
   "অ্যাসলামওয়ালিকুম", "কেমন আসো", "বলেন sir__😌", "বলেন ম্যাডাম__😌", "আমি অন্যের জিনিসের সাথে কথা বলি না__😏ওকে",
-  "বলো কি বলবা, সবার সামনে বলবা নাকি?🤭🤏", "🙂🙂🙂", "এটায় দেখার বাকি সিলো_🙂🙂🙂", "𝗕𝗯𝐲 𝗯𝗼𝗹𝗹𝗮 𝗽𝗮𝗽 𝗵𝗼𝗶𝗯𝗼 😒😒",
+  "🙂🙂🙂", "এটায় দেখার বাকি সিলো_🙂🙂🙂", "𝗕𝗯𝐲 𝗯𝗼𝗹𝗹𝗮 𝗽𝗮𝗽 𝗵𝗼𝗶𝗯𝗼 😒😒",
   "𝗧𝗮𝗿𝗽𝗼𝗿 𝗯𝗼𝗹𝗼_🙂", "𝗕𝗲𝘀𝗵𝗶 𝗱𝗮𝗸𝗹𝗲 𝗮𝗺𝗺𝘂 𝗯𝗼𝗸𝗮 𝗱𝗲𝗯𝗮 𝘁𝗼__🥺", "𝗕𝗯𝐲 না জানু, বল 😌", "বেশি bby Bbby করলে leave নিবো কিন্তু 😒😒",
   "__বেশি বেবি বললে কামুর দিমু 🤭🤭", "𝙏𝙪𝙢𝙖𝙧 𝙜𝙛 𝙣𝙖𝙞, 𝙩𝙖𝙮 𝙖𝗺𝗸 𝙙𝙖𝙠𝙨𝙤? 😂😂😂", "bolo baby😒", "তোর কথা তোর বাড়ি কেউ শুনে না ,তো আমি কোনো শুনবো ?🤔😂",
   "আমি তো অন্ধ কিছু দেখি না🐸 😎", "আম গাছে আম নাই ঢিল কেন মারো, তোমার সাথে প্রেম নাই বেবি কেন ডাকো 😒🫣",
@@ -17,7 +17,7 @@ const randomMessages = [
   "দূরে যা, তোর কোনো কাজ নাই, শুধু 𝗯𝗯𝘆 𝗯𝗯𝘆 করis 😉😋🤣", "এই এই তোর পরীক্ষা কবে? শুধু 𝗕𝗯𝘆 𝗯𝗯𝘆 করিস 😾",
   "তোরা যে হারে 𝗕𝗯𝘆 ডাকছিস আমি তো সত্যি বাচ্চা হয়ে যাবো_☹😑", "আজব তো__😒", "আমাকে ডেকো না,আমি ব্যাস্ত আসি🙆🏻‍♀",
   "𝗕𝗯𝐲 বললে চাকরি থাকবে না", "চুপ থাক নাই তো তোর দাত ভেংগে দিবো কিন্তু", "আমার সোনার বাংলা, তারপরে লাইন কি? 🙈",
-  "🍺 এই নাও জুস খাও..!𝗕𝗯𝐲 বলতে বলতে হাপায় গেছো না 🥲", "হটাৎ আমাকে মনে পড়লো 🙄", "𝗕𝗯𝘆 বলে অসম্মান করচ্ছিছ,😰😿",
+  "🍺 এই নাও জুস খাও..!𝗕𝗯𝐲 বলতে বলতে হাপায় গেছো না 🥲", "হটাৎ আমাকে মনে পড়লো 🙄", "𝗕𝗯𝐲 বলে অসম্মান করচ্ছিছ,😰😿",
   "𝗔𝘀𝘀𝗮𝗹𝗮𝗺𝘂𝗹𝗮𝗶𝗸𝘂𝗺 🐤🐤", "আমি তোমার সিনিয়র আপু ওকে 😼সম্মান দেও🙁", "খাওয়া দাওয়া করসো 🙄", "এত কাছেও এসো না,প্রেম এ পরে যাবো তো 🙈",
   "আরে আমি মজা করার mood এ নাই😒", "𝗛𝗲𝘆 𝗛𝗮𝗻𝗱𝘀𝗼𝗺𝗲 বলো 😁😁", "আরে Bolo আমার জান, কেমন আসো? 😚", "একটা BF খুঁজে দাও 😿",
   "ফ্রেন্ড রিকোয়েস্ট দিলে ৫ টাকা দিবো 😗", "oi mama ar dakis na pilis 😿", "🐤🐤", "__ভালো হয়ে  যাও 😑😒",
@@ -39,39 +39,11 @@ const baseApiUrl = async () => {
   return base.data.mahmud;
 };
 
-const handleCommand = async ({ api, event, args }) => {
-  const { threadID, messageID, senderID } = event;
-  const msg = (args && args.length > 0) ? args.join(" ").toLowerCase() : "";
-  const baseUrl = await baseApiUrl();
-
-  try {
-    if (!msg || mahmud.some(word => msg === word)) {
-      const randomMsg = randomMessages[Math.floor(Math.random() * randomMessages.length)];
-      return api.sendMessage(randomMsg, threadID, messageID);
-    }
-
-    if (args[0] === "teach") {
-      const content = msg.replace("teach ", "");
-      const [trigger, ...responsesArr] = content.split(" - ");
-      const responses = responsesArr.join(" - ");
-      if (!trigger || !responses) return api.sendMessage("❌ | teach [q] - [r]", threadID, messageID);
-      await axios.post(`${baseUrl}/api/jan/teach`, { trigger, responses, userID: senderID });
-      return api.sendMessage(`✅ Replies added!`, threadID, messageID);
-    }
-
-    const res = await axios.post(`${baseUrl}/api/hinata`, { text: msg, style: 3 });
-    return api.sendMessage(res.data.message || "error bby🥹", threadID, messageID);
-
-  } catch (err) {
-    return api.sendMessage("Error: " + err.message, threadID, messageID);
-  }
-};
-
 module.exports = {
   config: {
-    name: "baby",
+    name: "bby",
     aliases: ["hinata", "bby", "bbu", "jan", "marin", "wifey", "bot"],
-    version: "2.0",
+    version: "2.1",
     author: "—͟͞͞𝐓𝐀𝐌𝐈𝐌",
     countDown: 5,
     role: 0,
@@ -79,8 +51,58 @@ module.exports = {
     guide: "{p}baby [message]"
   },
 
-  // Dono handle kore dilam jate kono error na ashe
-  onStart: handleCommand,
-  run: handleCommand
-};
+  // Main execution for !baby command
+  onStart: async function ({ api, event, args }) {
+    const { threadID, messageID, senderID } = event;
+    const msg = (args && args.length > 0) ? args.join(" ").toLowerCase() : "";
+    const baseUrl = await baseApiUrl();
 
+    try {
+      if (!msg || mahmud.some(word => msg === word)) {
+        const randomMsg = randomMessages[Math.floor(Math.random() * randomMessages.length)];
+        return api.sendMessage(randomMsg, threadID, (err, info) => {
+          // Store reply data to handle later
+          global.GoatBot.onReply.set(info.messageID, {
+            commandName: "baby",
+            author: senderID
+          });
+        }, messageID);
+      }
+
+      const res = await axios.post(`${baseUrl}/api/hinata`, { text: msg, style: 3 });
+      return api.sendMessage(res.data.message || "error bby🥹", threadID, (err, info) => {
+        global.GoatBot.onReply.set(info.messageID, {
+          commandName: "baby",
+          author: senderID
+        });
+      }, messageID);
+
+    } catch (err) {
+      return api.sendMessage("Error: " + err.message, threadID, messageID);
+    }
+  },
+
+  // IMPORTANT: This handles the replies you showed in the screenshot
+  onReply: async function ({ api, event, handleReply }) {
+    const { threadID, messageID, body, senderID } = event;
+    const baseUrl = await baseApiUrl();
+
+    try {
+      const res = await axios.post(`${baseUrl}/api/hinata`, { text: body, style: 3 });
+      return api.sendMessage(res.data.message || "...", threadID, (err, info) => {
+        global.GoatBot.onReply.set(info.messageID, {
+          commandName: "baby",
+          author: senderID
+        });
+      }, messageID);
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  // Standard run to prevent the "run is not a function" error
+  run: function (context) {
+    return this.onStart(contex
+                        t);
+  }
+};
