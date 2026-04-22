@@ -1,44 +1,3 @@
-ldown || 0}s\n`;
-        info += `➥ Permission: ${role ?? 0} — ${roleName}\n`;
-        info += `➥ Author: ${author || 'Unknown'}`;
-
-        return api.sendMessage(info, event.threadId);
-      }
-
-      // ── Full command list ──────────────────────────────────────────────
-      const categories = {};
-      let totalUnique = 0;
-
-      for (const [key, cmd] of allCommands) {
-        if (cmd.config.name !== key) continue; // skip alias entries
-        const cat = cleanCategory(cmd.config.category);
-        if (!categories[cat]) categories[cat] = [];
-        categories[cat].push(cmd.config.name);
-        totalUnique++;
-      }
-
-      let msg = `━━━☠️ ${config.NICK_NAME_BOT || 'NeoKEX AI'} ☠️━━━\n`;
-      msg += `│ Prefix: ${prefix}  │  Commands: ${totalUnique}\n`;
-
-      const sortedCats = Object.keys(categories).sort();
-      for (const cat of sortedCats) {
-        const emoji = emojiMap[cat] || '➥';
-        const cmds  = categories[cat].sort().map(c => `× ${c}`).join('  ');
-        msg += `\n╭──『 ${emoji} ${cat.toUpperCase()} 』\n`;
-        msg += `${cmds}\n`;
-        msg += `╰────────────◊\n`;
-      }
-
-      msg += `\n➥ Use: ${prefix}help [command] for details`;
-
-      return api.sendMessage(msg, event.threadId);
-
-    } catch (error) {
-      logger.error('Error in help command', { error: error.message });
-      return api.sendMessage('❌ Error displaying help information.', event.threadId);
-    }
-  }
-};
 module.exports = {
   config: {
     name: 'help',
@@ -155,3 +114,4 @@ module.exports = {
     }
   }
 };
+
