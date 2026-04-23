@@ -2,7 +2,7 @@ module.exports = {
   config: {
     name: 'help',
     aliases: ['menu', 'commands', 'h'],
-    version: '5.0',
+    version: '5.2',
     author: '—͟͞͞𝐓𝐀𝐌𝐈𝐌',
     description: 'Show all available commands or detailed info about one command',
     usage: 'help [command name]',
@@ -72,7 +72,7 @@ module.exports = {
         return api.sendMessage(info, event.threadId);
       }
 
-      // ── Full Command List (Premium Aesthetic) ──
+      // ── Full Command List (New Premium Frame) ──
       const categories = {};
       let totalUnique = 0;
 
@@ -84,25 +84,26 @@ module.exports = {
         totalUnique++;
       }
 
-      let msg = `┏━━━ • ✙ • ━━━┓\n`;
-      msg += `  ${config.NICK_NAME_BOT || '𝐓𝐀𝐌𝐈𝐌 𝐀𝐈'} 𝐌𝐄𝐍𝐔\n`;
-      msg += `┗━━━ • ✙ • ━━━┛\n`;
-      msg += `┌───────────────◊\n`;
-      msg += `│ 𝗣𝗿𝗲𝗳𝗶𝘅: [ ${prefix} ]\n`;
-      msg += `│ 𝗧𝗼𝘁𝗮𝗹: ${totalUnique} 𝗖𝗼𝗺𝗺𝗮𝗻𝗱𝘀\n`;
-      msg += `└───────────────◊\n`;
+      let msg = `╔═══━━━─── • ───━━━═══╗\n`;
+      msg += `   ♡—͟͞͞𝐓ꫝ֟፝ؖ۬ᴍɪᴍ_𝙱𝙾𝚃__//⸙🩷🪽\n`;
+      msg += `╚═══━━━─── • ───━━━═══╝\n`;
+      msg += `▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱\n`;
+      msg += ` ➥ 𝗣𝗿𝗲𝗳𝗶𝘅: 『 ${prefix} 』\n`;
+      msg += ` ➥ 𝗧𝗼𝘁𝗮𝗹: 『 ${totalUnique} 』𝗖𝗼𝗺𝗺𝗮𝗻𝗱𝘀\n`;
+      msg += `▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱\n`;
 
       const sortedCats = Object.keys(categories).sort();
       for (const cat of sortedCats) {
-        const emoji = emojiMap[cat] || '💎';
-        const cmds = categories[cat].sort().map(c => `『${c}』`).join(' ');
-        msg += `\n╭──────•◈•──────╮\n`;
-        msg += `   ${emoji} ${cat.toUpperCase()}\n`;
-        msg += `╰──────•◈•──────╯\n`;
-        msg += ` ${cmds}\n`;
+        const emoji = emojiMap[cat] || '💠';
+        const cmds = categories[cat].sort().map(c => `➤ ${c}`).join('\n');
+        
+        msg += `\n╭─╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼\n`;
+        msg += `│ ${emoji} 🏷️ 𝐂𝐀𝐓𝐄𝐆𝐎𝐑𝐘: ${cat.toUpperCase()}\n`;
+        msg += `╰╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼╼\n`;
+        msg += `${cmds}\n`;
       }
 
-      msg += `\n──────────────────\n`;
+      msg += `\n━━━━━━━━━━━━━━━━━━━━━━\n`;
       msg += `💡 𝗨𝘀𝗲: ${prefix}𝗵𝗲𝗹𝐩 [𝗻𝗮𝗺𝗲] 𝗳𝗼𝗿 𝗶𝗻𝗳𝗼\n`;
       msg += `👤 𝐀𝐮𝐭𝐡𝐨𝐫: —͟͞͞𝐓𝐀𝐌𝐈𝐌`;
 
@@ -114,4 +115,3 @@ module.exports = {
     }
   }
 };
-
