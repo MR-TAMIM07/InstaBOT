@@ -2,7 +2,7 @@ module.exports = {
   config: {
     name: 'prefix',
     aliases: ['setprefix', 'changeprefix'],
-    version: '1.5.0',
+    version: '1.6.0',
     author: '—͟͞͞𝐓𝐀𝐌𝐈𝐌',
     role: 0,
     cooldown: 5,
@@ -12,16 +12,15 @@ module.exports = {
   },
 
   async run({ api, event, args, bot, logger, database, config, PermissionManager, ConfigManager }) {
-    try {
-      const currentPrefix = config.PREFIX;
-      const threadId = event.threadId;
-      const userId = event.senderID;
+    const { threadId, senderID, body } = event;
+    const currentPrefix = config.PREFIX;
 
+    try {
       // Stylish Header Frame
       const header = `╭─────────────◊\n│  ✨ 𝐏𝐑𝐄𝐅𝐈𝐗 𝐒𝐄𝐓𝐓𝐈𝐍𝐆𝐒\n╰─────────────◊\n\n`;
 
-      // If no arguments, show usage
-      if (args.length === 0) {
+      // Logical Fix: Jodi user shudhu prefix ba 'prefix' lekhe
+      if (!args[0] || args.length === 0) {
         let msg = header;
         msg += ` ❐ 𝐂𝐮𝐫𝐫𝐞𝐧𝐭 𝐏𝐫𝐞𝐟𝐢𝐱: 『 ${currentPrefix} 』\n\n`;
         msg += `──『 𝐔𝐬𝐚𝐠𝐞 』──\n`;
@@ -35,82 +34,39 @@ module.exports = {
         return api.sendMessage(msg, threadId);
       }
 
-      // Handle reset
+      // Handle reset logic
       if (args[0].toLowerCase() === 'reset') {
         database.setThreadData(threadId, { prefix: null });
-        
-        let msg = `╭─────────────◊\n`;
-        msg += `│  ✅ 𝐏𝐑𝐄𝐅𝐈𝐗 𝐑𝐄𝐒𝐄𝐓\n`;
-        msg += `╰─────────────◊\n\n`;
-        msg += `❐ Chat prefix has been reset to default.\n`;
-        msg += `❐ 𝐍𝐞𝐰 𝐏𝐫𝐞𝐟𝐢𝐱: 『 ${currentPrefix} 』\n`;
-        msg += `────────────────`;
-        
+        let msg = `╭─────────────◊\n│  ✅ 𝐏𝐑𝐄𝐅𝐈𝐗 𝐑𝐄𝐒𝐄𝐓\n╰─────────────◊\n\n❐ Chat prefix reset to: 『 ${currentPrefix} 』`;
         return api.sendMessage(msg, threadId);
       }
 
       const newPrefix = args[0];
       const isGlobal = args[1] === '-g' || args[1] === '--global';
 
-      // Validate new prefix
-      if (newPrefix.length > 5) {
-        return api.sendMessage('❌ 𝐏𝐫𝐞𝐟𝐢𝐱 𝐦𝐮𝐬𝐭 𝐛𝐞 𝟓 𝐜𝐡𝐚𝐫𝐚𝐜𝐭𝐞𝐫𝐬 𝐨𝐫 𝐥𝐞𝐬𝐬!', threadId);
+      if (newPrefix.length > 5 || newPrefix.includes(' ')) {
+        return api.sendMessage('❌ 𝐈𝐧𝐯𝐚𝐥𝐢𝐝 𝐩𝐫𝐞𝐟𝐢𝐱 (𝐦𝐚𝐱 𝟓 𝐜𝐡𝐚𝐫𝐬, 𝐧𝐨 𝐬𝐩𝐚𝐜𝐞𝐬)!', threadId);
       }
 
-      if (newPrefix.includes(' ')) {
-        return api.sendMessage('❌ 𝐏𝐫𝐞𝐟𝐢𝐱 𝐜𝐚𝐧𝐧𝐨𝐭 𝐜𝐨𝐧𝐭𝐚𝐢𝐧 𝐬𝐩𝐚𝐜𝐞𝐬!', threadId);
-      }
-
-      // Handle global prefix change (admin only)
       if (isGlobal) {
-        const hasAdminPermission = await PermissionManager.hasPermission(userId, 2);
-        
-        if (!hasAdminPermission) {
-          return api.sendMessage(
-            '❌ 𝐀𝐂𝐂𝐄𝐒𝐒 𝐃𝐄𝐍𝐈𝐄𝐃\n\nOnly bot administrators can change the global prefix.',
-            threadId
-          );
-        }
+        const isAdmin = await PermissionManager.hasPermission(senderID, 2);
+        if (!isAdmin) return api.sendMessage('❌ 𝐀𝐝𝐦𝐢𝐧 𝐨𝐧𝐥𝐲 𝐜𝐨𝐦𝐦𝐚𝐧𝐝!', threadId);
 
-        try {
-          ConfigManager.updateConfig('PREFIX', newPrefix);
-          
-          let msg = `╭─────────────◊\n`;
-          msg += `│  🌍 𝐆𝐋𝐎𝐁𝐀𝐋 𝐏𝐑𝐄𝐅𝐈𝐗\n`;
-          msg += `╰─────────────◊\n\n`;
-          msg += `✅ System prefix updated globally!\n`;
-          msg += `❐ 𝐍𝐞𝐰 𝐏𝐫𝐞𝐟𝐢𝐱: 『 ${newPrefix} 』\n`;
-          msg += `❐ 𝐂𝐡𝐚𝐧𝐠𝐞𝐝 𝐛𝐲: ${userId}\n\n`;
-          msg += `⚠️ This affects all users and groups.`;
-          
-          logger.info(`Global prefix changed to "${newPrefix}" by user ${userId}`);
-          return api.sendMessage(msg, threadId);
-          
-        } catch (error) {
-          logger.error('Failed to update global prefix', { error: error.message });
-          return api.sendMessage('❌ Failed to update global prefix.', threadId);
-        }
+        ConfigManager.updateConfig('PREFIX', newPrefix);
+        let msg = `╭─────────────◊\n│  🌍 𝐆𝐋𝐎𝐁𝐀𝐋 𝐏𝐑𝐄𝐅𝐈𝐗\n╰─────────────◊\n\n✅ Global prefix: 『 ${newPrefix} 』`;
+        return api.sendMessage(msg, threadId);
       }
 
-      // Handle thread-specific prefix change
+      // Thread Specific Prefix
       const threadData = database.getThreadData(threadId) || {};
       threadData.prefix = newPrefix;
       database.setThreadData(threadId, threadData);
 
-      let msg = `╭─────────────◊\n`;
-      msg += `│  ✅ 𝐏𝐑𝐄𝐅𝐈𝐗 𝐂𝐇𝐀𝐍𝐆𝐄𝐃\n`;
-      msg += `╰─────────────◊\n\n`;
-      msg += `❐ New prefix for this chat: 『 ${newPrefix} 』\n`;
-      msg += `❐ Global prefix: 『 ${currentPrefix} 』\n\n`;
-      msg += `💡 𝐄𝐱𝐚𝐦𝐩𝐥𝐞: ${newPrefix}help\n`;
-      msg += `────────────────`;
-
-      logger.info(`Thread prefix changed to "${newPrefix}" for thread ${threadId}`);
+      let msg = `╭─────────────◊\n│  ✅ 𝐏𝐑𝐄𝐅𝐈𝐗 𝐂𝐇𝐀𝐍𝐆𝐄𝐃\n╰─────────────◊\n\n❐ New chat prefix: 『 ${newPrefix} 』\n💡 Example: ${newPrefix}help`;
       return api.sendMessage(msg, threadId);
 
     } catch (error) {
-      logger.error('Error in prefix command', { error: error.message });
-      return api.sendMessage('❌ Error executing prefix command.', event.threadId);
+      return api.sendMessage('❌ Error executing prefix command.', threadId);
     }
   }
 };
